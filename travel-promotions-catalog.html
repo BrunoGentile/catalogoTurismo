@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Promociones - Destinos y Viajes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .header {
+            background: #000;
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo-destinos {
+            color: #fff;
+        }
+
+        .logo-viajes {
+            color: #ff6600;
+            font-size: 1rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #ff6600;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #ff8533;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #000;
+        }
+
+        .btn-secondary:hover {
+            background: #f0f0f0;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: #000;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .share-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .share-section h2 {
+            color: #ff6600;
+            margin-bottom: 1rem;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .promo-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .promo-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(255,102,0,0.2);
+        }
+
+        .promo-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #000, #ff6600);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .promo-content {
+            padding: 1.5rem;
+        }
+
+        .promo-title {
+            font-size: 1.5rem;
+            color: #000;
+            margin-bottom: 0.5rem;
+        }
+
+        .promo-price {
+            font-size: 2rem;
+            color: #ff6600;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .promo-dates {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .promo-description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .promo-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .admin-panel h2 {
+            color: #ff6600;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #000;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ff6600;
+        }
+
+        .promo-list {
+            margin-top: 2rem;
+        }
+
+        .promo-item {
+            background: #f9f9f9;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .promo-item-info h4 {
+            color: #000;
+            margin-bottom: 0.3rem;
+        }
+
+        .promo-item-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            padding: 2rem;
+            background: linear-gradient(135deg, #000, #ff6600);
+            color: white;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: white;
+            color: #000;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-body h3 {
+            color: #ff6600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #999;
+        }
+
+        .empty-state h3 {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .catalog-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .share-buttons {
+                flex-direction: column;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <div class="logo-destinos">Destinos</div>
+            <div class="logo-viajes">Y VIAJES</div>
+        </div>
+        <div class="header-actions">
+            <button class="btn btn-outline" onclick="toggleView()">
+                <span id="viewToggleText">Modo Admin</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Vista Catálogo -->
+    <div id="catalogView">
+        <div class="container">
+            <div class="share-section">
+                <h2>Compartir Catálogo</h2>
+                <p>Comparte nuestras increíbles promociones con tus clientes</p>
+                <div class="share-buttons">
+                    <button class="btn btn-primary" onclick="shareWhatsApp()">
+                        📱 Enviar por WhatsApp
+                    </button>
+                    <button class="btn btn-primary" onclick="shareEmail()">
+                        📧 Enviar por Email
+                    </button>
+                    <button class="btn btn-secondary" onclick="copyLink()">
+                        🔗 Copiar Enlace
+                    </button>
+                </div>
+            </div>
+
+            <div id="catalogGrid" class="catalog-grid"></div>
+            
+            <div id="emptyState" class="empty-state hidden">
+                <h3>No hay promociones disponibles</h3>
+                <p>Activa el modo administrador para agregar promociones</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vista Admin -->
+    <div id="adminView" class="hidden">
+        <div class="container">
+            <div class="admin-panel">
+                <h2>Agregar Nueva Promoción</h2>
+                <form id="promoForm">
+                    <div class="form-group">
+                        <label>Destino *</label>
+                        <input type="text" id="destino" required placeholder="Ej: Caribe - Punta Cana">
+                    </div>
+                    <div class="form-group">
+                        <label>Precio *</label>
+                        <input type="text" id="precio" required placeholder="Ej: $1,299">
+                    </div>
+                    <div class="form-group">
+                        <label>Fechas Disponibles *</label>
+                        <input type="text" id="fechas" required placeholder="Ej: 15 Jun - 22 Jun 2024">
+                    </div>
+                    <div class="form-group">
+                        <label>URL de Imagen</label>
+                        <input type="url" id="imagen" placeholder="https://ejemplo.com/imagen.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label>Emoji/Icono (si no hay imagen)</label>
+                        <input type="text" id="emoji" placeholder="🏖️" maxlength="2">
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción Breve *</label>
+                        <textarea id="descripcion" rows="3" required placeholder="Descripción corta para la tarjeta..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Itinerario Detallado</label>
+                        <textarea id="itinerario" rows="6" placeholder="Día 1: Llegada al hotel...&#10;Día 2: Tour por la ciudad..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Agregar Promoción</button>
+                </form>
+            </div>
+
+            <div class="admin-panel">
+                <h2>Promociones Activas</h2>
+                <div id="promoList" class="promo-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para ver detalles -->
+    <div id="promoModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div class="modal-header" id="modalHeader"></div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        let promociones = JSON.parse(localStorage.getItem('promociones')) || [];
+        let currentView = 'catalog';
+        let editingIndex = -1;
+
+        function toggleView() {
+            currentView = currentView === 'catalog' ? 'admin' : 'catalog';
+            document.getElementById('catalogView').classList.toggle('hidden');
+            document.getElementById('adminView').classList.toggle('hidden');
+            document.getElementById('viewToggleText').textContent = 
+                currentView === 'catalog' ? 'Modo Admin' : 'Ver Catálogo';
+            
+            if (currentView === 'catalog') {
+                renderCatalog();
+            } else {
+                renderPromoList();
+            }
+        }
+
+        function savePromociones() {
+            localStorage.setItem('promociones', JSON.stringify(promociones));
+        }
+
+        document.getElementById('promoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const promo = {
+                id: editingIndex >= 0 ? promociones[editingIndex].id : Date.now(),
+                destino: document.getElementById('destino').value,
+                precio: document.getElementById('precio').value,
+                fechas: document.getElementById('fechas').value,
+                imagen: document.getElementById('imagen').value,
+                emoji: document.getElementById('emoji').value || '✈️',
+                descripcion: document.getElementById('descripcion').value,
+                itinerario: document.getElementById('itinerario').value,
+                activo: true
+            };
+
+            if (editingIndex >= 0) {
+                promociones[editingIndex] = promo;
+                editingIndex = -1;
+            } else {
+                promociones.push(promo);
+            }
+
+            savePromociones();
+            this.reset();
+            renderPromoList();
+            alert('Promoción guardada exitosamente!');
+        });
+
+        function renderCatalog() {
+            const grid = document.getElementById('catalogGrid');
+            const emptyState = document.getElementById('emptyState');
+            const activas = promociones.filter(p => p.activo);
+
+            if (activas.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            grid.innerHTML = activas.map(promo => `
+                <div class="promo-card" onclick="openModal(${promo.id})">
+                    <div class="promo-image">
+                        ${promo.imagen ? 
+                            `<img src="${promo.imagen}" style="width: 100%; height: 100%; object-fit: cover;" alt="${promo.destino}">` : 
+                            promo.emoji
+                        }
+                    </div>
+                    <div class="promo-content">
+                        <h3 class="promo-title">${promo.destino}</h3>
+                        <div class="promo-price">${promo.precio}</div>
+                        <div class="promo-dates">📅 ${promo.fechas}</div>
+                        <p class="promo-description">${promo.descripcion}</p>
+                        <div class="promo-actions">
+                            <button class="btn btn-primary" onclick="event.stopPropagation(); contactWhatsApp('${promo.destino}')">
+                                💬 Contactar
+                            </button>
+                            <button class="btn btn-secondary" onclick="event.stopPropagation(); openModal(${promo.id})">
+                                Ver Detalles
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderPromoList() {
+            const list = document.getElementById('promoList');
+            
+            if (promociones.length === 0) {
+                list.innerHTML = '<p style="color: #999;">No hay promociones creadas</p>';
+                return;
+            }
+
+            list.innerHTML = promociones.map((promo, index) => `
+                <div class="promo-item">
+                    <div class="promo-item-info">
+                        <h4>${promo.destino} - ${promo.precio}</h4>
+                        <small style="color: #666;">${promo.fechas}</small>
+                    </div>
+                    <div class="promo-item-actions">
+                        <button class="btn btn-small btn-secondary" onclick="editPromo(${index})">
+                            ✏️ Editar
+                        </button>
+                        <button class="btn btn-small ${promo.activo ? 'btn-secondary' : 'btn-primary'}" 
+                                onclick="togglePromo(${index})">
+                            ${promo.activo ? '👁️ Ocultar' : '👁️ Mostrar'}
+                        </button>
+                        <button class="btn btn-small btn-danger" onclick="deletePromo(${index})">
+                            🗑️ Eliminar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function editPromo(index) {
+            const promo = promociones[index];
+            document.getElementById('destino').value = promo.destino;
+            document.getElementById('precio').value = promo.precio;
+            document.getElementById('fechas').value = promo.fechas;
+            document.getElementById('imagen').value = promo.imagen || '';
+            document.getElementById('emoji').value = promo.emoji || '';
+            document.getElementById('descripcion').value = promo.descripcion;
+            document.getElementById('itinerario').value = promo.itinerario || '';
+            editingIndex = index;
+            window.scrollTo(0, 0);
+        }
+
+        function togglePromo(index) {
+            promociones[index].activo = !promociones[index].activo;
+            savePromociones();
+            renderPromoList();
+        }
+
+        function deletePromo(index) {
+            if (confirm('¿Estás seguro de eliminar esta promoción?')) {
+                promociones.splice(index, 1);
+                savePromociones();
+                renderPromoList();
+            }
+        }
+
+        function openModal(id) {
+            const promo = promociones.find(p => p.id === id);
+            if (!promo) return;
+
+            const modal = document.getElementById('promoModal');
+            const header = document.getElementById('modalHeader');
+            const body = document.getElementById('modalBody');
+
+            header.innerHTML = `
+                <h2>${promo.destino}</h2>
+                <div style="font-size: 2rem; margin-top: 0.5rem;">${promo.precio}</div>
+            `;
+
+            body.innerHTML = `
+                <div style="color: #666; margin-bottom: 1rem;">📅 ${promo.fechas}</div>
+                <p style="line-height: 1.8; margin-bottom: 1.5rem;">${promo.descripcion}</p>
+                ${promo.itinerario ? `
+                    <h3>Itinerario</h3>
+                    <p style="white-space: pre-line; line-height: 1.8;">${promo.itinerario}</p>
+                ` : ''}
+                <div style="margin-top: 2rem;">
+                    <button class="btn btn-primary" style="width: 100%;" 
+                            onclick="contactWhatsApp('${promo.destino}')">
+                        💬 Contactar por WhatsApp
+                    </button>
+                </div>
+            `;
+
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('promoModal').classList.remove('active');
+        }
+
+        function contactWhatsApp(destino) {
+            const mensaje = `Hola! Me interesa la promoción de ${destino}`;
+            const url = `https://wa.me/5491123456789?text=${encodeURIComponent(mensaje)}`;
+            window.open(url, '_blank');
+        }
+
+        function shareWhatsApp() {
+            const mensaje = `🌍 ¡Hola! Te comparto nuestro catálogo de promociones de viaje`;
+            window.open(`https://wa.me/5491151170395?text=${encodeURIComponent(mensaje)}`, '_blank');
+        }
+
+        function shareEmail() {
+            const asunto = 'Consulta sobre Promociones de Destinos y Viajes';
+            const cuerpo = `Hola,\n\nMe interesa conocer más sobre tus promociones de viaje.\n\nSaludos!`;
+            window.location.href = `mailto:destinosyviajes01@gmail.com?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
+        }
+
+        function copyLink() {
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(() => {
+                alert('¡Enlace copiado al portapapeles!');
+            });
+        }
+
+        // Cerrar modal al hacer click fuera
+        document.getElementById('promoModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Inicializar
+        renderCatalog();
+    </script>
+</body>
+</html>
